@@ -1,0 +1,9 @@
+lua_ls:
+	"https://github.com/LuaLS/lua-language-server/releases"
+	"lua-language-server-3.16.4-win32-x64"
+
+roslyn_ls:
+    "https://www.nuget.org/packages/Microsoft.CodeAnalysis.LanguageServer.win-x64/"
+    "microsoft.codeanalysis.languageserver.win-x64.5.0.0-1.25277.114.nupkg"
+
+
