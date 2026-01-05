@@ -4,12 +4,19 @@ termfeatures.osc52 = false
 vim.g.termfeatures = termfeatures
 vim.g.editorconfig = true
 vim.opt.updatetime = 50
+vim.opt.inccommand = "split" -- "nosplit"
 
 pcall(function()
-    vim.o.shell = "powershell.exe"
-    vim.opt.shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command"
-    vim.opt.shellquote = ""
-    vim.opt.shellxquote = ""
+    if vim.loop.os_uname().sysname == "Windows_NT" then
+        vim.o.shell = "powershell.exe"
+        vim.opt.shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command"
+        vim.opt.shellquote = ""
+        vim.opt.shellxquote = ""
+        vim.cmd([[
+            cnoreabbrev powershell powershell -nologo
+            cnoreabbrev sh powershell -nologo -NoProfile -Command -
+            ]])
+    end
 end)
 
 vim.cmd.colorscheme("quiet")
@@ -91,9 +98,6 @@ function _G.MyFoldText()
     return "> " .. line .. " [...]"
 end
 
-
-
-
 vim.diagnostic.config({
     severity_sort = true,
     update_in_insert = false,
@@ -123,21 +127,21 @@ require("sunglasses").setup({
     -- filter_percent = 0.2,
 })
 
-local function fzf_lua_setup()
-    local fzflua = require("fzf-lua")
-    fzflua.setup({
-        fzf_opts = {
-            ["--cycle"] = true,
-            ["--ansi"] = true,
-        },
-        defaults = {
-            git_icons = false,
-            file_icons = false,
-            color_icons = false,
-        },
-    })
-    require("keymaps").fzflua()
-end
+-- local function fzf_lua_setup()
+--     local fzflua = require("fzf-lua")
+--     fzflua.setup({
+--         fzf_opts = {
+--             ["--cycle"] = true,
+--             ["--ansi"] = true,
+--         },
+--         defaults = {
+--             git_icons = false,
+--             file_icons = false,
+--             color_icons = false,
+--         },
+--     })
+--     require("keymaps").fzflua()
+-- end
 
 local function keymaps_setup()
     local keymaps = require("keymaps")
@@ -147,6 +151,12 @@ end
 local function colors_setup()
     local colors = require("colors")
     colors.setup()
+end
+
+local function fzf_vim_setup()
+    local fzf_vim = require("fzf_vim_setup")
+    fzf_vim.setup()
+    require("keymaps").fzf_vim()
 end
 
 -- pcall(fzf_lua_setup)
@@ -159,9 +169,11 @@ pcall(require, "my_project_jumps")
 pcall(require, "comment")
 pcall(require, "oil_setup")
 keymaps_setup()
-fzf_lua_setup()
-colors_setup()
+-- fzf_lua_setup()
+fzf_vim_setup()
 
+
+colors_setup()
 vim.api.nvim_create_autocmd("ColorScheme", {
     callback = function()
         colors_setup()

@@ -1,5 +1,4 @@
 local M = {}
-
 local function SpellCheck(arg)
     local spell_restore = vim.o.spell
     vim.o.spell = true
@@ -54,16 +53,15 @@ function M.setup()
     -- Insert mode
     vim.keymap.set("i", "<C-j>", "<Nop>")
     -- vim.keymap.set("i", "<C-h>", "<Nop>", { remap = true })
-    vim.keymap.set("i", "<C-h>", "<left>")
-    vim.keymap.set("i", "<C-j>", "<down>")
-    vim.keymap.set("i", "<C-k>", "<up>")
-    vim.keymap.set("i", "<C-l>", "<right>")
 
-    -- Command-line mode
-    vim.keymap.set("c", "<C-h>", "<left>")
-    vim.keymap.set("c", "<C-j>", "<down>")
-    vim.keymap.set("c", "<C-k>", "<up>")
-    vim.keymap.set("c", "<C-l>", "<right>")
+    -- i for Insert mode
+    -- c for Command-line mode
+    -- t for Terminal mode
+    vim.keymap.set({ "i", "c", "t" }, "<C-h>", "<left>")
+    vim.keymap.set({ "i", "c", "t" }, "<C-j>", "<down>")
+    vim.keymap.set({ "i", "c", "t" }, "<C-k>", "<up>")
+    vim.keymap.set({ "i", "c", "t" }, "<C-l>", "<right>")
+
 
     -- Normal mode
     vim.keymap.set("n", "<leader>so", ":source $MYVIMRC<CR>", opts)
@@ -161,20 +159,63 @@ function M.lsp_mappings(bufnr)
     end, opts)
 end
 
-function M.fzflua()
+function M.fzf_vim()
     -- local opts = { buffer = bufnr }
     local opts = {}
 
-    vim.keymap.set("n", "<leader>/", function()
-        require("fzf-lua").lgrep_curbuf()
-    end, opts)
-    vim.keymap.set("v", "<leader>/", function()
-        require("fzf-lua").grep_visual({ cwd = vim.fn.expand("%:p:h") })
-    end, opts)
+    vim.keymap.set("n", "<leader>/", "<cmd>BLines<cr>", opts)
 
-    vim.keymap.set("n", "<leader>ls", function()
-        require("fzf-lua").buffers()
-    end, opts)
+    vim.keymap.set("v", "<leader>/",
+        function() -- grep visual selection in current buffer
+            local query = require("utils").get_visual_selection()
+            if query == "" then
+                return
+            end
+            vim.cmd("BLines " .. query)
+        end
+        , opts)
+
+
+
+    vim.keymap.set("n", "<leader>g/",
+        function()
+            local cwd = require("utils").FindProjectRoot({ "*.root", ".git" }):gsub("\\", "/") -- IMPORTANT on Windows
+            vim.cmd(string.format([[
+                call fzf#vim#grep(
+                \   'rg  --with-filename  --column --line-number --no-heading --color=always --smart-case '.shellescape(""),
+                \       1,
+                \       fzf#vim#with_preview({ 'dir' : '%s' ,'options': '--delimiter : --nth 3..'},'down', 'ctrl-/'),
+                \       !0
+                \   )
+            ]], cwd))
+        end
+        , opts)
+
+    -- fndprjroot
+    vim.keymap.set("v", "<leader>g/",
+        function()
+            local query = require("utils").get_visual_selection()
+            if query == "" then
+                return
+            end
+            local cwd = require("utils").FindProjectRoot({ "*.root", ".git" }):gsub("\\", "/") -- IMPORTANT on Windows
+
+            vim.cmd(string.format([[
+                call fzf#vim#grep(
+                \   'rg  --with-filename  --column --line-number --no-heading --color=always --smart-case '.shellescape(""),
+                \       1,
+                \       fzf#vim#with_preview({  'dir' : '%s' ,'options': '--query="%s"   --delimiter : --nth 3..'},'down', 'ctrl-/'),
+                \       !0
+                \   )
+            ]], cwd, vim.fn.shellescape(query)))
+        end
+        , opts)
+
+    vim.keymap.set("n", "<leader>ls",
+        function()
+            vim.cmd("Buffers")
+        end
+        , opts)
 end
 
 return M

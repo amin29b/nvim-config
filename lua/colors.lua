@@ -10,18 +10,20 @@ function M.setup()
     vim.fn.matchadd("ENDREGION", [[^.*#endregion.*$]])
 
 
-    local color_text = "#FFFFFF"
+    local color_text = "#FCFCFC"
     -- local color_constant="#885522"
     -- local color_constant="#805020"
     local color_constant = "#E6B88A"
     local color_branch = "#4B70F5"
     local color_delimiter = "#7777cc"
+    -- local color_comment = "#119911"
+    local color_comment = "#45CC2D"
 
     local custom_hls = {
-        ["@comment"]                     = { fg = "#335533", italic = true, bold = false },
-        ["Comment"]                      = { fg = "#335533", italic = true, bold = false },
-        ["javaScriptLineComment"]        = { fg = "#335533", italic = true, bold = false },
-        ["javaScriptComment"]            = { fg = "#335533", italic = true, bold = false },
+        ["@comment"]                     = { fg = color_comment, italic = false, bold = false },
+        ["Comment"]                      = { fg = color_comment, italic = false, bold = false },
+        ["javaScriptLineComment"]        = { fg = color_comment, italic = false, bold = false },
+        ["javaScriptComment"]            = { fg = color_comment, italic = false, bold = false },
 
         ["@string.escape"]               = { fg = "#16c79a", bold = true },
 
@@ -33,7 +35,7 @@ function M.setup()
         ["javaScriptStringS"]            = { fg = color_constant, bold = false },
         ["javaScriptStringT"]            = { fg = color_constant, bold = false },
         ["javaScriptStringD"]            = { fg = color_constant, bold = false },
-        ["javaScriptNumber"]            = { fg = color_constant, bold = false },
+        ["javaScriptNumber"]             = { fg = color_constant, bold = false },
         ["javaScriptBoolean"]            = { fg = color_constant, bold = false },
         ["csBoolean"]                    = { fg = color_constant, bold = false },
 
@@ -74,31 +76,31 @@ function M.setup()
         ["javaScriptBraces"]             = { fg = color_delimiter, bold = true },
         ["@lsp.type.punctuation"]        = { fg = color_delimiter, bold = true },
 
-        ["Folded"]                       = { fg = "#11A6FF", bg = "#000044", bold = true },
+        ["Folded"]                       = { fg = "#11A6FF", bg = "#111144", bold = true },
         ["LineNr"]                       = { fg = "#000000", bg = "#A6A6A6", bold = false, italic = false },
-        ["CursorLineNr"]                 = { bg = "#0000FF", bold = false, italic = true },
+        ["CursorLineNr"]                 = { bg = "#1010FF", bold = false, italic = true },
         ["SignColumn"]                   = { bg = "#2e3440", bold = false, italic = true },
-        ["EndOfBuffer"]                  = { bg = "#2e3440", bold = false, italic = true },
+        ["EndOfBuffer"]                  = { bg = "#111120", bold = false, italic = true },
 
-        ["TODOColor"]                    = { fg = "#660000", bold = true },
-        ["NOTEColor"]                    = { fg = "#007700", bold = true },
+        ["TODOColor"]                    = { fg = "#661111", bold = true },
+        ["NOTEColor"]                    = { fg = "#11FF11", bold = true },
         ["FIXMEColor"]                   = { fg = "#999900", bold = true },
         ["BUGColor"]                     = { fg = "#999900", bold = true },
-        ["ExtraWhitespace"]              = { bg = "#320000", bold = true },
+        ["ExtraWhitespace"]              = { bg = "#321111", bold = true },
 
-        ["Cursor"]                       = { reverse = true, bg = "#66FF66" },
+        ["Cursor"]                       = { bg = "#2CFF05" },
+        ["CursorLine"]                   = { bg = "#101080", bold = true },
 
-        ["REGION"]                       = { fg = "#000020", bg = "#999999" },
-        ["ENDREGION"]                    = { fg = "#000020", bg = "#999999" },
+        ["REGION"]                       = { fg = "#505020", bg = "#999999" },
+        ["ENDREGION"]                    = { fg = "#050520", bg = "#999999" },
 
         ["OilDir"]                       = { fg = "#7aa2f7", bold = true },
         ["OilFile"]                      = { fg = "#c0caf5", bg = "NONE" },
-        -- ["OilFloat"]                     = { fg = "#FF0000", bg = "#FF00FF" },
         ["NormalFloat"]                  = { fg = "NONE", bg = "NONE" },
 
         ["TabLineFill"]                  = { fg = "NONE", bg = "#A6A6A6" },
         ["TabLine"]                      = { fg = "NONE", bg = "#A6A6A6" },
-        ["TabLineSel"]                   = { fg = "#000000", bg = "#FFFFFF" },
+        ["TabLineSel"]                   = { fg = "#050505", bg = "#FFFFFF" },
     }
 
 

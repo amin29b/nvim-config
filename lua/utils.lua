@@ -46,6 +46,7 @@ local function FindProjectRoot(root_markers)
         dir = parent
     end
 
+    print(root)
     return root
 end
 
@@ -118,6 +119,21 @@ local function ensure_file_(path)
     end
 end
 
+local function get_visual_selection()
+    -- save register
+    local reg = vim.fn.getreg('"')
+    local regtype = vim.fn.getregtype('"')
+
+    -- yank visual selection
+    vim.cmd('silent normal! "vy')
+
+    local visual_selection = vim.fn.getreg('"')
+
+    -- restore register
+    vim.fn.setreg('"', reg, regtype)
+
+    return visual_selection
+end
 
 return {
     FindProjectRoot = FindProjectRoot,
@@ -125,4 +141,5 @@ return {
     save_c_buffers = save_c_buffers,
     generate_uuid = uuid_v4_,
     ensure_file = ensure_file_,
+    get_visual_selection= get_visual_selection,
 }

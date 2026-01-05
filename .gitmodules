@@ -1,0 +1,12 @@
+[submodule "pack/vendor/start/fzf.vim"]
+	path = pack/vendor/start/fzf.vim
+	url = https://github.com/junegunn/fzf.vim
+[submodule "pack/vendor/start/fzf"]
+	path = pack/vendor/start/fzf
+	url = https://github.com/junegunn/fzf
+[submodule "pack/vendor/start/oil.nvim"]
+	path = pack/vendor/start/oil.nvim
+	url = https://github.com/stevearc/oil.nvim
+[submodule "pack/vendor/start/sunglasses.nvim"]
+	path = pack/vendor/start/sunglasses.nvim
+	url = https://github.com/miversen33/sunglasses.nvim
