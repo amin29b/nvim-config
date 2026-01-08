@@ -21,6 +21,10 @@ function M.setup()
 
                 let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all'
           ]])
+
+    vim.g.fzf_action = {
+        ["ctrl-x"] = "bd",
+    }
 end
 
 return M

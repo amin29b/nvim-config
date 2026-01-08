@@ -100,8 +100,8 @@ function M.setup()
     vim.keymap.set("n", "<leader>jo", '<cmd>MyProjectJumps<cr>')
     vim.keymap.set("n", "<leader>jj", '<cmd>AddProjectJump<cr>')
 
-    vim.keymap.set("n", "<leader>jo", '<cmd>MyJumps<cr>')
-    vim.keymap.set("n", "<leader>jj", '<cmd>lua add_jump()<cr>')
+    -- vim.keymap.set("n", "<leader>jo", '<cmd>MyJumps<cr>')
+    -- vim.keymap.set("n", "<leader>jj", '<cmd>lua add_jump()<cr>')
 
     -- vim.keymap.set("n", "<leader>ju", '<cmd>Jumps<cr>')
 
@@ -122,6 +122,18 @@ function M.setup()
             vim.keymap.set("n", "", "<cmd>close<CR>", { buffer = true, silent = true, })
         end,
     })
+
+    vim.keymap.set("n", "*", function()
+        vim.fn.setreg("/", "\\c" .. vim.fn.expand("<cword>"))
+        vim.cmd("normal! n")
+    end, { noremap = true })
+
+    -- vim.keymap.set("n", "#", function()
+    --     vim.fn.setreg("/", vim.fn.expand("<cword>"))
+    -- or
+    -- vim.fn.setreg("/", "\\c" .. vim.fn.expand("<cword>"))
+    --     vim.cmd("normal! N")
+    -- end, { noremap = true })
 end
 
 function M.lsp_mappings(bufnr)

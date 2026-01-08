@@ -46,7 +46,7 @@ local function FindProjectRoot(root_markers)
         dir = parent
     end
 
-    print(root)
+    -- print(root)
     return root
 end
 
@@ -101,7 +101,7 @@ local function uuid_v4_()
 end
 
 local function ensure_file_(path)
-    print(path)
+    -- print(path)
     if path == nil or vim.startswith(path, "\\") then
         return
     end
