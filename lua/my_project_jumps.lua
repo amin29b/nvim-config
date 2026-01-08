@@ -11,7 +11,7 @@ vim.api.nvim_set_hl(0, "JumpFullPath", { fg = "#225522", italic = false, underli
 
 local function project_jump_file_path()
     local utils = require("utils")
-    local project_root = utils.FindProjectRoot({ "*.root" })
+    local project_root = utils.FindProjectRoot({ "*.root",".git" })
     local project_uuid_file = vim.fn.expand(project_root .. "/.project_uuid")
 
     if vim.fn.filereadable(project_uuid_file) == 0 then
