@@ -20,6 +20,7 @@ function M.setup()
     local color_comment = "#45CC2D"
 
     local custom_hls = {
+        ["Normal"]                       = { fg = color_text, bg = "#001500", italic = false, bold = false },
         ["@comment"]                     = { fg = color_comment, italic = false, bold = false },
         ["Comment"]                      = { fg = color_comment, italic = false, bold = false },
         ["javaScriptLineComment"]        = { fg = color_comment, italic = false, bold = false },
@@ -76,31 +77,39 @@ function M.setup()
         ["javaScriptBraces"]             = { fg = color_delimiter, bold = true },
         ["@lsp.type.punctuation"]        = { fg = color_delimiter, bold = true },
 
-        ["Folded"]                       = { fg = "#11A6FF", bg = "#111144", bold = true },
-        ["LineNr"]                       = { fg = "#000000", bg = "#A6A6A6", bold = false, italic = false },
-        ["CursorLineNr"]                 = { bg = "#1010FF", bold = false, italic = true },
-        ["SignColumn"]                   = { bg = "#2e3440", bold = false, italic = true },
-        ["EndOfBuffer"]                  = { bg = "#111120", bold = false, italic = true },
 
-        ["TODOColor"]                    = { fg = "#661111", bold = true },
-        ["NOTEColor"]                    = { fg = "#11FF11", bold = true },
-        ["FIXMEColor"]                   = { fg = "#999900", bold = true },
-        ["BUGColor"]                     = { fg = "#999900", bold = true },
-        ["ExtraWhitespace"]              = { bg = "#321111", bold = true },
+        ["@lsp.type.excludedCode.cs"] = { fg = "#006000", bold = true },
+        -- ["PreProc"]                   = { fg = "#006000", bold = true },
+        ["PreProc"]                   = { fg = "#505020", bg = "#999999" },
+        ["REGION"]                    = { fg = "#505020", bg = "#999999" },
+        ["ENDREGION"]                 = { fg = "#050520", bg = "#999999" },
 
-        ["Cursor"]                       = { bg = "#2CFF05" },
-        ["CursorLine"]                   = { bg = "#101080", bold = true },
+        ["Folded"]                    = { fg = "#11A6FF", bg = "#111144", bold = true },
+        ["LineNr"]                    = { fg = "#000000", bg = "#A6A6A6", bold = false, italic = false },
+        ["CursorLineNr"]              = { bg = "#1010FF", bold = false, italic = true },
+        ["SignColumn"]                = { bg = "#2e3440", bold = false, italic = true },
+        ["EndOfBuffer"]               = { bg = "#111120", bold = false, italic = true },
 
-        ["REGION"]                       = { fg = "#505020", bg = "#999999" },
-        ["ENDREGION"]                    = { fg = "#050520", bg = "#999999" },
+        ["TODOColor"]                 = { fg = "#661111", bold = true },
+        ["NOTEColor"]                 = { fg = "#11FF11", bold = true },
+        ["FIXMEColor"]                = { fg = "#999900", bold = true },
+        ["BUGColor"]                  = { fg = "#999900", bold = true },
+        ["ExtraWhitespace"]           = { bg = "#321111", bold = true },
 
-        ["OilDir"]                       = { fg = "#7aa2f7", bold = true },
-        ["OilFile"]                      = { fg = "#c0caf5", bg = "NONE" },
-        ["NormalFloat"]                  = { fg = "NONE", bg = "NONE" },
+        ["Cursor"]                    = { bg = "#2CFF05" },
+        ["CursorLine"]                = { bg = "#101080", bold = true },
 
-        ["TabLineFill"]                  = { fg = "NONE", bg = "#A6A6A6" },
-        ["TabLine"]                      = { fg = "NONE", bg = "#A6A6A6" },
-        ["TabLineSel"]                   = { fg = "#050505", bg = "#FFFFFF" },
+
+        ["OilDir"]                   = { fg = "#7aa2f7", bold = true },
+        ["OilFile"]                  = { fg = "#c0caf5", bg = "NONE" },
+        ["NormalFloat"]              = { fg = "NONE", bg = "NONE" },
+
+        ["TabLineFill"]              = { fg = "NONE", bg = "#A6A6A6" },
+        ["TabLine"]                  = { fg = "NONE", bg = "#A6A6A6" },
+        ["TabLineSel"]               = { fg = "#050505", bg = "#FFFFFF" },
+
+        ["DiagnosticUnderlineWarn"]  = { fg = "#ffff00" },
+        ["DiagnosticUnderlineError"] = { fg = "#ff0000" },
     }
 
 

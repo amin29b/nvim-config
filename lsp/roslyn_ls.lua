@@ -48,7 +48,7 @@ local function roslyn_handlers()
   return {
       ["textDocument/publishDiagnostics"] = vim.lsp.with( 
           vim.lsp.diagnostic.on_publish_diagnostics, { 
-              virtual_text = true, 
+              virtual_text = false, 
               signs = true, 
               underline = true, 
               update_in_insert = false, 

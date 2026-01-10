@@ -1,6 +1,24 @@
 local function FindProjectRoot(root_markers)
     -- Start from the directory of the current file or current working directory
     local current_dir = vim.fn.expand('%:p:h')
+    -- print(current_dir)
+
+    local drive_letter = current_dir:match("^oil:///([A-Z])")
+    -- print(drive_letter)
+    if drive_letter then
+        current_dir = current_dir:gsub("oil:///" .. drive_letter, drive_letter .. ":")
+        -- print(current_dir)
+    end
+
+    -- if current_dir:match("^oil:///.*") then
+    --     current_dir = current_dir:gsub("oil:///", "")
+    --     print("matched oil :  " .. current_dir)
+    --
+    --     local firstChar = current_dir:match("^[ ]*([A-Z])[/]")
+    --     print("firstChar :  [" .. firstChar .. "]")
+    --     current_dir = current_dir:gsub(firstChar, firstChar .. ":")
+    -- end
+    -- print(current_dir)
     if (current_dir == '') then
         current_dir = vim.fn.getcwd()
     end
@@ -141,5 +159,5 @@ return {
     save_c_buffers = save_c_buffers,
     generate_uuid = uuid_v4_,
     ensure_file = ensure_file_,
-    get_visual_selection= get_visual_selection,
+    get_visual_selection = get_visual_selection,
 }

@@ -11,7 +11,7 @@ vim.api.nvim_set_hl(0, "JumpFullPath", { fg = "#225522", italic = false, underli
 
 local function project_jump_file_path()
     local utils = require("utils")
-    local project_root = utils.FindProjectRoot({ "*.root",".git" })
+    local project_root = utils.FindProjectRoot({ "*.root", ".git" })
     local project_uuid_file = vim.fn.expand(project_root .. "/.project_uuid")
 
     if vim.fn.filereadable(project_uuid_file) == 0 then
@@ -46,6 +46,7 @@ end
 
 local function open_file_in_float_MyProjectJumps()
     local project_jump_file = project_jump_file_path();
+    -- print("open_file_in_float_MyProjectJumps  : [" .. project_jump_file .. "]")
     require("utils").ensure_file(project_jump_file);
     -- line  |col   |                   path                           |                   line_content                                                                               | full_path
     -- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -166,6 +167,7 @@ function add_project_jump()
     end
 
     local project_jump_file = project_jump_file_path();
+    -- print("add_project_jump  : [" .. project_jump_file .. "]")
     require("utils").ensure_file(project_jump_file);
     local pos           = vim.api.nvim_win_get_cursor(0) -- {row, col}
     local row, col      = pos[1], pos[2] + 1             -- col is 0-indexed
