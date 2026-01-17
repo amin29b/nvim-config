@@ -150,6 +150,7 @@ local function get_visual_selection()
     -- restore register
     vim.fn.setreg('"', reg, regtype)
 
+    -- print(visual_selection)
     return visual_selection
 end
 

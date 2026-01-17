@@ -27,6 +27,7 @@ function M.setup()
         ["javaScriptComment"]            = { fg = color_comment, italic = false, bold = false },
 
         ["@string.escape"]               = { fg = "#16c79a", bold = true },
+        ["csSpecialChar"]                = { fg = "#16c79a", bold = true },
 
         ["@character"]                   = { fg = color_constant, bold = false },
         ["@string"]                      = { fg = color_constant, bold = false },
@@ -39,6 +40,11 @@ function M.setup()
         ["javaScriptNumber"]             = { fg = color_constant, bold = false },
         ["javaScriptBoolean"]            = { fg = color_constant, bold = false },
         ["csBoolean"]                    = { fg = color_constant, bold = false },
+        ["csString"]                     = { fg = color_constant, bold = false },
+        ["csQuote"]                      = { fg = color_constant, bold = false },
+        ["csInteger"]                    = { fg = color_constant, bold = false },
+        ["csReal"]                       = { fg = color_constant, bold = false },
+        ["csNull"]                       = { fg = color_constant, bold = false },
 
         ["@variable"]                    = { fg = color_text },
         ["@variable.parameter"]          = { fg = color_text },
@@ -70,11 +76,14 @@ function M.setup()
 
         ["@operator"]                    = { fg = color_delimiter, bold = true },
         ["@lsp.type.operator"]           = { fg = color_delimiter, bold = true },
+        ["csIsAs"]                       = { fg = color_delimiter, bold = true },
         ["@punctuation.delimiter"]       = { fg = color_delimiter, bold = true },
         ["@punctuation.bracket"]         = { fg = color_delimiter, bold = true },
         ["@constructor"]                 = { fg = color_delimiter, bold = true },
         ["javaScriptParens"]             = { fg = color_delimiter, bold = true },
         ["javaScriptBraces"]             = { fg = color_delimiter, bold = true },
+        ["csParens"]                     = { fg = color_delimiter, bold = true },
+        ["csBraces"]                     = { fg = color_delimiter, bold = true },
         ["@lsp.type.punctuation"]        = { fg = color_delimiter, bold = true },
 
 

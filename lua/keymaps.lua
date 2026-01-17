@@ -134,6 +134,15 @@ function M.setup()
     -- vim.fn.setreg("/", "\\c" .. vim.fn.expand("<cword>"))
     --     vim.cmd("normal! N")
     -- end, { noremap = true })
+    vim.keymap.set("v", "<leader>tt",
+        function()
+            local query = require("utils").get_visual_selection()
+            if query == "" then
+                return
+            end
+            require("tab").tabular(query)
+        end
+        , opts)
 end
 
 function M.lsp_mappings(bufnr)
@@ -202,6 +211,7 @@ function M.fzf_vim()
             ]], cwd))
         end
         , opts)
+
 
     -- fndprjroot
     vim.keymap.set("v", "<leader>g/",

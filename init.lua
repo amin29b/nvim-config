@@ -34,6 +34,7 @@ vim.g.mapleader      = " "
 vim.g.mapleaderlocal = " "
 vim.o.cursorline     = true
 vim.o.signcolumn     = "yes"
+vim.g.have_nerd_font = false
 vim.o.belloff        = "all"
 vim.o.winborder      = "single"
 vim.o.swapfile       = false
@@ -43,7 +44,7 @@ vim.o.incsearch      = true
 vim.o.hlsearch       = true
 vim.o.ignorecase     = true
 vim.o.smartcase      = true
-vim.opt.completeopt  = { "menuone", "popup", "fuzzy", "noselect" }
+vim.opt.completeopt  = { "menu", "menuone", "popup", "fuzzy", "noselect" }
 vim.o.ruler          = true
 vim.o.laststatus     = 2
 vim.o.showmode       = false
@@ -124,7 +125,7 @@ require("sunglasses").setup({
     filter_type = "SHADE",
     filter_percent = 0.4,
     -- filter_type = "TINT",
-    -- filter_percent = 0.2,
+    -- filter_percent = 0.5,
 })
 
 -- local function fzf_lua_setup()
@@ -179,6 +180,41 @@ vim.api.nvim_create_autocmd("ColorScheme", {
         colors_setup()
     end,
 })
+
+vim.api.nvim_create_autocmd("InsertCharPre", {
+    callback = function()
+        if vim.fn.pumvisible() == 1 or vim.fn.state('m') == 'm' then
+            return
+        end
+        local clients = vim.lsp.get_clients({ bufnr = 0 })
+
+
+        if next(clients) ~= nil then
+            vim.lsp.completion.get()
+        else
+            local key = vim.keycode('<C-x><C-n>')
+            vim.api.nvim_feedkeys(key, 'm', false)
+        end
+    end
+})
+
+
+
+
+vim.api.nvim_create_autocmd('LspAttach', {
+    callback = function(args)
+        vim.lsp.completion.enable(true, args.data.client_id, args.buf, {
+            autotrigger = true,
+            convert = function(item)
+                return { abbr = item.label }
+            end,
+        })
+    end,
+})
+
+
+
+
 
 
 require("lsps.roslyn_ls").setup()
