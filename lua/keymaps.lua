@@ -136,11 +136,12 @@ function M.setup()
     -- end, { noremap = true })
     vim.keymap.set("v", "<leader>tt",
         function()
-            local query = require("utils").get_visual_selection()
-            if query == "" then
-                return
-            end
-            require("tab").tabular(query)
+            -- local query = require("utils").get_visual_selection()
+            -- if query == "" then
+            --     return
+            -- end
+            -- require("tab").tabular(query)
+            require("tabular").tabular()
         end
         , opts)
 end

@@ -160,6 +160,10 @@ local function fzf_vim_setup()
     require("keymaps").fzf_vim()
 end
 
+local function tabular_setup()
+    local tabular = require("tabular")
+    tabular.setup()
+end
 -- pcall(fzf_lua_setup)
 
 pcall(terminal_setup)
@@ -172,6 +176,7 @@ pcall(require, "oil_setup")
 keymaps_setup()
 -- fzf_lua_setup()
 fzf_vim_setup()
+tabular_setup()
 
 
 colors_setup()
@@ -198,7 +203,7 @@ vim.api.nvim_create_autocmd("InsertCharPre", {
     end
 })
 
-
+ vim.lsp.semantic_tokens.enable(false)
 
 
 vim.api.nvim_create_autocmd('LspAttach', {
@@ -218,8 +223,9 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
 
 require("lsps.roslyn_ls").setup()
-require("lsps.lua_ls").setup()
-require("lsps.html_ls").setup()
-require("lsps.ts_ls").setup()
-require("lsps.css_ls").setup()
-require("lsps.json_ls").setup()
+require("lsps.lua_ls"   ).setup()
+require("lsps.html_ls"  ).setup()
+require("lsps.ts_ls"    ).setup()
+require("lsps.css_ls"   ).setup()
+require("lsps.json_ls"  ).setup()
+
