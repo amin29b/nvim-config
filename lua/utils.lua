@@ -68,6 +68,7 @@ local function FindProjectRoot(root_markers)
     return root
 end
 
+
 local function save_csharp_buffers()
     for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
         if vim.api.nvim_buf_is_loaded(bufnr) then

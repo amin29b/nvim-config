@@ -173,6 +173,8 @@ pcall(require, "my_projects")
 pcall(require, "my_project_jumps")
 pcall(require, "comment")
 pcall(require, "oil_setup")
+pcall(require, "file_search")
+pcall(require, "autocomplete")
 keymaps_setup()
 -- fzf_lua_setup()
 fzf_vim_setup()
@@ -186,46 +188,14 @@ vim.api.nvim_create_autocmd("ColorScheme", {
     end,
 })
 
-vim.api.nvim_create_autocmd("InsertCharPre", {
-    callback = function()
-        if vim.fn.pumvisible() == 1 or vim.fn.state('m') == 'm' then
-            return
-        end
-        local clients = vim.lsp.get_clients({ bufnr = 0 })
-
-
-        if next(clients) ~= nil then
-            vim.lsp.completion.get()
-        else
-            local key = vim.keycode('<C-x><C-n>')
-            vim.api.nvim_feedkeys(key, 'm', false)
-        end
-    end
-})
-
- vim.lsp.semantic_tokens.enable(false)
-
-
-vim.api.nvim_create_autocmd('LspAttach', {
-    callback = function(args)
-        vim.lsp.completion.enable(true, args.data.client_id, args.buf, {
-            autotrigger = true,
-            convert = function(item)
-                return { abbr = item.label }
-            end,
-        })
-    end,
-})
-
-
-
+vim.lsp.semantic_tokens.enable(false)
 
 
 
 require("lsps.roslyn_ls").setup()
-require("lsps.lua_ls"   ).setup()
-require("lsps.html_ls"  ).setup()
-require("lsps.ts_ls"    ).setup()
-require("lsps.css_ls"   ).setup()
-require("lsps.json_ls"  ).setup()
-
+-- require("lsps.omnisharp_ls").setup()
+require("lsps.lua_ls").setup()
+require("lsps.html_ls").setup()
+require("lsps.ts_ls").setup()
+require("lsps.css_ls").setup()
+require("lsps.json_ls").setup()

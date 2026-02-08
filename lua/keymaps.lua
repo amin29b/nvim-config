@@ -162,6 +162,7 @@ function M.lsp_mappings(bufnr)
     -- "<C-.> -> ý
     vim.keymap.set("n", "ý", vim.lsp.buf.code_action, opts)
     vim.keymap.set("v", "ý", vim.lsp.buf.code_action, opts)
+    vim.keymap.set("i", "þ", "<C-x><C-o>", opts)
 
     -- Diagnostics
     vim.keymap.set("n", "<C-l><C-p>", function()
