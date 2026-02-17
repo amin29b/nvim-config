@@ -1,2 +1,3 @@
 *.log
 lsp/lua-lsp/log/
+lsp/roslyn-lsp/cache/

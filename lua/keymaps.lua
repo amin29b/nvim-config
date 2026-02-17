@@ -62,6 +62,8 @@ function M.setup()
     vim.keymap.set({ "i", "c", "t" }, "<C-k>", "<up>")
     vim.keymap.set({ "i", "c", "t" }, "<C-l>", "<right>")
 
+    vim.keymap.set("n", "<C-l>", "<Nop>")
+
 
     -- Normal mode
     vim.keymap.set("n", "<leader>so", ":source $MYVIMRC<CR>", opts)
@@ -99,6 +101,8 @@ function M.setup()
 
     vim.keymap.set("n", "<leader>jo", '<cmd>MyProjectJumps<cr>')
     vim.keymap.set("n", "<leader>jj", '<cmd>AddProjectJump<cr>')
+
+    vim.keymap.set({ "n", "i" }, "<leader>js", '<cmd>MyProjectSnippets<cr>')
 
     -- vim.keymap.set("n", "<leader>jo", '<cmd>MyJumps<cr>')
     -- vim.keymap.set("n", "<leader>jj", '<cmd>lua add_jump()<cr>')
@@ -144,6 +148,13 @@ function M.setup()
             require("tabular").tabular()
         end
         , opts)
+
+    vim.cmd([[
+        nnoremap <space><space> <Esc>/<++><Enter>"_c4l
+        autocmd FileType cs  inoremap  `fi   for (int i = 0; i < <++> ; i++)<Enter>{<Enter><++><Enter>}<Esc>3ki
+        autocmd FileType cs  inoremap  `fj   for (int j = 0; j < <++> ; j++)<Enter>{<Enter><++><Enter>}<Esc>3ki
+        autocmd FileType cs  inoremap  `fk   for (int k = 0; k < <++> ; k++)<Enter>{<Enter><++><Enter>}<Esc>3ki
+    ]])
 end
 
 function M.lsp_mappings(bufnr)
@@ -158,28 +169,30 @@ function M.lsp_mappings(bufnr)
         vim.lsp.buf.hover({ border = "single" })
     end, opts)
 
+
+    -- Diagnostics
+    vim.keymap.set("n", "<leader>lp", function()
+        vim.diagnostic.setqflist({ severity = { min = vim.diagnostic.severity.WARN } })
+    end, opts)
+
+    vim.keymap.set("n", "<leader>l]", function()
+        vim.diagnostic.jump({ count = 1, float = false })
+    end, opts)
+
+    vim.keymap.set("n", "<leader>l[", function()
+        vim.diagnostic.jump({ count = -1, float = false })
+    end, opts)
+
+    vim.keymap.set("n", "<leader>lo", function()
+        vim.diagnostic.open_float({ border = "single" })
+    end, opts)
+
+
     -- Code actions
     -- "<C-.> -> ý
     vim.keymap.set("n", "ý", vim.lsp.buf.code_action, opts)
     vim.keymap.set("v", "ý", vim.lsp.buf.code_action, opts)
     vim.keymap.set("i", "þ", "<C-x><C-o>", opts)
-
-    -- Diagnostics
-    vim.keymap.set("n", "<C-l><C-p>", function()
-        vim.diagnostic.setqflist({ severity = { min = vim.diagnostic.severity.WARN } })
-    end, opts)
-
-    vim.keymap.set("n", "<C-l><C-]>", function()
-        vim.diagnostic.jump({ count = 1, float = false })
-    end, opts)
-
-    vim.keymap.set("n", "<C-l><C-[>", function()
-        vim.diagnostic.jump({ count = -1, float = false })
-    end, opts)
-
-    vim.keymap.set("n", "<C-l><C-O>", function()
-        vim.diagnostic.open_float({ border = "single" })
-    end, opts)
 end
 
 function M.fzf_vim()
