@@ -15,7 +15,7 @@ function M.setup()
     -- local color_constant="#885522"
     -- local color_constant="#805020"
     -- local color_constant = "#E6B88A"
-    local color_constant = "#CC8200"
+    local color_constant = "#CC8210"
     -- local color_branch = "#4B70F5"
     -- local color_branch = "#4B70F5"
     -- local color_branch = "#4444FF"
@@ -23,7 +23,7 @@ function M.setup()
     local color_delimiter = "#7777cc"
     -- local color_comment = "#119911"
     -- local color_comment = "#45CC2D"
-    local color_comment = "#04702b"
+    local color_comment = "#10702b"
 
     local custom_hls = {
         ["PUNC"]                         = { fg = "#666688", bold = true },

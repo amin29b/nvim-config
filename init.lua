@@ -5,6 +5,7 @@ vim.g.termfeatures = termfeatures
 vim.g.editorconfig = true
 vim.opt.updatetime = 50
 vim.opt.inccommand = "split" -- "nosplit"
+vim.opt.more = false
 
 pcall(function()
     if vim.loop.os_uname().sysname == "Windows_NT" then
@@ -75,7 +76,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
 vim.o.backspace   = "indent,eol,start"
 
 vim.o.wildmenu    = true
-vim.o.wildmode    = "full"
+-- vim.o.wildmode    = "full"
 vim.o.wildoptions = "pum"
 
 vim.o.showmatch   = true
@@ -84,7 +85,7 @@ vim.o.showcmd     = true
 vim.o.encoding    = "utf-8"
 vim.o.autoindent  = true
 vim.o.hidden      = true
--- vim.fn.wildtrigger = true
+-- -- vim.fn.wildtrigger = true
 
 
 vim.o.foldenable = true
@@ -123,7 +124,7 @@ end
 
 require("sunglasses").setup({
     filter_type = "SHADE",
-    filter_percent = 0.4,
+    filter_percent = 0.3,
     -- filter_type = "TINT",
     -- filter_percent = 0.5,
 })
@@ -176,6 +177,8 @@ pcall(require, "comment")
 pcall(require, "oil_setup")
 pcall(require, "file_search")
 pcall(require, "autocomplete")
+pcall(require, "my_find")
+pcall(require, "todolist_cmd")
 keymaps_setup()
 -- fzf_lua_setup()
 fzf_vim_setup()

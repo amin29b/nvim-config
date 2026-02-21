@@ -74,9 +74,13 @@ function M.setup()
         return vim.fn.pumvisible() == 1 and "<C-n>" or "<Tab>"
     end, { expr = true, noremap = true })
 
+    vim.keymap.set("c", "<Tab>", "<C-n>", { noremap = true })
+
     vim.keymap.set("i", "<S-Tab>", function()
         return vim.fn.pumvisible() == 1 and "<C-p>" or "<S-Tab>"
     end, { expr = true, noremap = true })
+
+    vim.keymap.set("c", "<S-Tab>", "<C-p>", { noremap = true })
 
     vim.keymap.set("i", "<CR>", function()
         return vim.fn.pumvisible() == 1 and "<C-y>" or "<CR>"
@@ -102,7 +106,7 @@ function M.setup()
     vim.keymap.set("n", "<leader>jo", '<cmd>MyProjectJumps<cr>')
     vim.keymap.set("n", "<leader>jj", '<cmd>AddProjectJump<cr>')
 
-    vim.keymap.set({ "n", "i" }, "<leader>js", '<cmd>MyProjectSnippets<cr>')
+    vim.keymap.set({ "n" }, "<leader>js", '<cmd>MyProjectSnippets<cr>')
 
     -- vim.keymap.set("n", "<leader>jo", '<cmd>MyJumps<cr>')
     -- vim.keymap.set("n", "<leader>jj", '<cmd>lua add_jump()<cr>')
@@ -151,9 +155,6 @@ function M.setup()
 
     vim.cmd([[
         nnoremap <space><space> <Esc>/<++><Enter>"_c4l
-        autocmd FileType cs  inoremap  `fi   for (int i = 0; i < <++> ; i++)<Enter>{<Enter><++><Enter>}<Esc>3ki
-        autocmd FileType cs  inoremap  `fj   for (int j = 0; j < <++> ; j++)<Enter>{<Enter><++><Enter>}<Esc>3ki
-        autocmd FileType cs  inoremap  `fk   for (int k = 0; k < <++> ; k++)<Enter>{<Enter><++><Enter>}<Esc>3ki
     ]])
 end
 
