@@ -6,6 +6,7 @@ vim.g.editorconfig = true
 vim.opt.updatetime = 50
 vim.opt.inccommand = "split" -- "nosplit"
 vim.opt.more = false
+-- vim.g.loaded_matchparen = 0
 
 pcall(function()
     if vim.loop.os_uname().sysname == "Windows_NT" then
@@ -20,7 +21,7 @@ pcall(function()
     end
 end)
 
-vim.cmd.colorscheme("quiet")
+vim.cmd.colorscheme("me_quiet")
 vim.o.termguicolors = true
 vim.o.guicursor     =
 "a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,sm:block-blinkwait175-blinkoff150-blinkon175"
@@ -58,7 +59,7 @@ vim.o.shiftwidth     = 4
 vim.o.expandtab      = true
 vim.o.smartindent    = true
 vim.o.syntax         = "on"
-
+---------------------------------------------------------------------------------
 vim.o.cmdwinheight   = 20
 vim.o.cmdheight      = 2
 
@@ -78,8 +79,9 @@ vim.o.backspace   = "indent,eol,start"
 vim.o.wildmenu    = true
 -- vim.o.wildmode    = "full"
 vim.o.wildoptions = "pum"
+vim.opt.pumheight = 5
 
-vim.o.showmatch   = true
+vim.o.showmatch   = false
 vim.o.showcmd     = true
 
 vim.o.encoding    = "utf-8"
@@ -90,15 +92,24 @@ vim.o.hidden      = true
 
 vim.o.foldenable = true
 vim.o.foldexpr = 'v:lua.vim.lsp.foldexpr()'
+-- vim.o.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 vim.o.foldlevel = 99
 vim.o.foldlevelstart = 99
 vim.o.foldmethod = 'expr'
+-- vim.o.foldmethod = 'marker'
+-- vim.o.foldmarker = '{,}'
 vim.opt.fillchars:append { fold = " " }
 vim.opt.foldtext = "v:lua._G.MyFoldText()"
 function _G.MyFoldText()
     local line = vim.fn.getline(vim.v.foldstart)
-    return "> " .. line .. " [...]"
+    -- if vim.trim(line) == "{" then
+    -- if vim.endswith(vim.trim(line), "{") then
+    --     return "" .. line .. " [...] " .. "}"
+    -- else
+    return "" .. line .. " [...] "
+    -- end
 end
+--------------------------------------------------------------------------------------------
 
 vim.diagnostic.config({
     severity_sort = true,
@@ -179,24 +190,26 @@ pcall(require, "file_search")
 pcall(require, "autocomplete")
 pcall(require, "my_find")
 pcall(require, "todolist_cmd")
+pcall(require, "cursor_word_highlight")
+
 keymaps_setup()
 -- fzf_lua_setup()
 fzf_vim_setup()
 tabular_setup()
 
 
-colors_setup()
-vim.api.nvim_create_autocmd("ColorScheme", {
-    callback = function()
-        colors_setup()
-    end,
-})
+-- colors_setup()
+-- vim.api.nvim_create_autocmd("ColorScheme", {
+--     callback = function()
+--         colors_setup()
+--     end,
+-- })
 
 vim.lsp.semantic_tokens.enable(false)
 
 
-
 require("lsps.roslyn_ls").setup()
+require("lsps.c_ls").setup()
 -- require("lsps.omnisharp_ls").setup()
 require("lsps.lua_ls").setup()
 require("lsps.html_ls").setup()

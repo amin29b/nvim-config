@@ -22,7 +22,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.lsp.completion.enable(true, args.data.client_id, args.buf, {
             autotrigger = true,
             convert = function(item)
-                return { abbr = item.label }
+                return { abbr = item.label  }
             end,
         })
     end,

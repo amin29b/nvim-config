@@ -43,17 +43,19 @@ local function open_file_in_float_MyJumps()
     vim.cmd("edit " .. vim.fn.fnameescape(jumpfile_path))
     vim.api.nvim_set_current_win(win)
 
-    -- <CR> jumps in previous window, closes float
     vim.keymap.set("n", "<CR>", function()
         local line = vim.api.nvim_get_current_line()
         local row, col, filename, spaces, path = line:match(match_pattern)
         if row and col and filename and spaces and path then
-            -- go back to previous window
             vim.cmd("wincmd p")
-            -- edit file there
-            vim.cmd("edit! " .. vim.fn.fnameescape(vim.fn.expand(path)))
+            local full_path = vim.fn.expand(path)
+            local bufnr = vim.fn.bufnr(full_path)
+            if bufnr ~= -1 then
+                vim.api.nvim_set_current_buf(bufnr)
+            else
+                vim.cmd("edit " .. vim.fn.fnameescape(full_path))
+            end
             local success, result = pcall(function()
-                -- vim.api.nvim_win_set_cursor(0, { tonumber(row), tonumber(col) - 1 })
                 vim.api.nvim_win_set_cursor(0, { tonumber(row), tonumber(col) })
             end)
 
@@ -61,13 +63,11 @@ local function open_file_in_float_MyJumps()
                 vim.api.nvim_win_set_cursor(0, { 1, 1 })
             end
 
-            -- close floating window and buffer
             vim.api.nvim_win_close(win, true)
             vim.api.nvim_buf_delete(buf, { force = true })
             if vim.api.nvim_buf_is_valid(buf) then
                 vim.bo[buf].buflisted = false
             end
-            -- vim.api.nvim_win_close(win, true)
         else
             print("Invalid jump format!")
         end

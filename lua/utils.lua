@@ -84,28 +84,6 @@ local function save_csharp_buffers()
     end
 end
 
-local function save_c_buffers()
-    for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-        if vim.api.nvim_buf_is_loaded(bufnr) then
-            local name = vim.api.nvim_buf_get_name(bufnr)
-            if name:match("%.c$") then
-                if vim.api.nvim_buf_get_option(bufnr, "modified") then
-                    vim.api.nvim_buf_call(bufnr, function()
-                        vim.cmd("update")
-                    end)
-                end
-            end
-            if name:match("%.h$") then
-                if vim.api.nvim_buf_get_option(bufnr, "modified") then
-                    vim.api.nvim_buf_call(bufnr, function()
-                        vim.cmd("update")
-                    end)
-                end
-            end
-        end
-    end
-end
-
 local function uuid_v4_()
     local bytes = vim.loop.random(16)
     bytes = { bytes:byte(1, 16) }
@@ -155,11 +133,41 @@ local function get_visual_selection()
     return visual_selection
 end
 
+local function get_visual_selection_buf()
+    local mode = vim.fn.mode()
+    if mode ~= "v" and mode ~= "V" then
+        return nil
+    end
+
+    local start_pos = vim.fn.getpos("v")
+    local end_pos = vim.fn.getpos(".")
+
+    local start_row = start_pos[2] - 1
+    local start_col = start_pos[3] - 1
+    local end_row = end_pos[2] - 1
+    local end_col = end_pos[3]
+
+    if start_row > end_row or (start_row == end_row and start_col > end_col) then
+        start_row, end_row = end_row, start_row
+        start_col, end_col = end_col - 1, start_col + 1
+    end
+
+    local lines = vim.api.nvim_buf_get_lines(0, start_row, end_row + 1, false)
+
+    if #lines == 0 then return nil end
+
+    lines[#lines] = string.sub(lines[#lines], 1, end_col)
+    lines[1] = string.sub(lines[1], start_col + 1)
+
+    return table.concat(lines, "\n")
+end
+
 return {
     FindProjectRoot = FindProjectRoot,
     save_csharp_buffers = save_csharp_buffers,
-    save_c_buffers = save_c_buffers,
+    -- save_c_buffers = save_c_buffers,
     generate_uuid = uuid_v4_,
     ensure_file = ensure_file_,
     get_visual_selection = get_visual_selection,
+    get_visual_selection_buf = get_visual_selection_buf,
 }

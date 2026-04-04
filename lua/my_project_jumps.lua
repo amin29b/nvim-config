@@ -1,4 +1,6 @@
-local match_pattern = "^(%d+)|(%d+)|([^|]+)|([^|]+)|(.+)$"
+local match_pattern = "^(%d+)‖(%d+)‖([^‖]+)‖([^‖]+)‖(.+)$"
+local line_pattern = "%s‖%s‖%s‖%s‖%s"
+local sep_width = 3 -- NOTE(^min): Width of field seperator  , some characters has width more than 1.
 
 vim.api.nvim_set_hl(0, "JumpSeparator", { fg = "#aa0000", bg = "#000000", bold = true })
 vim.api.nvim_set_hl(0, "JumpRow", { fg = "#000000", bg = "#22aa22", bold = false })
@@ -76,17 +78,20 @@ local function open_file_in_float_MyProjectJumps()
     vim.cmd("edit " .. vim.fn.fnameescape(project_jump_file))
     vim.api.nvim_set_current_win(win)
 
-    -- <CR> jumps in previous window, closes float
     vim.keymap.set("n", "<CR>", function()
         local line = vim.api.nvim_get_current_line()
         local row, col, filename, spaces, path = line:match(match_pattern)
         if row and col and filename and spaces and path then
-            -- go back to previous window
             vim.cmd("wincmd p")
-            -- edit file there
-            vim.cmd("edit! " .. vim.fn.fnameescape(vim.fn.expand(path)))
+            local full_path = vim.fn.expand(path)
+            local bufnr = vim.fn.bufnr(full_path)
+            if bufnr ~= -1 then
+                vim.api.nvim_set_current_buf(bufnr)
+            else
+                vim.cmd("edit " .. vim.fn.fnameescape(full_path))
+            end
+
             local success, result = pcall(function()
-                -- vim.api.nvim_win_set_cursor(0, { tonumber(row), tonumber(col) - 1 })
                 vim.api.nvim_win_set_cursor(0, { tonumber(row), tonumber(col) })
             end)
 
@@ -94,13 +99,11 @@ local function open_file_in_float_MyProjectJumps()
                 vim.api.nvim_win_set_cursor(0, { 1, 1 })
             end
 
-            -- close floating window and buffer
             vim.api.nvim_win_close(win, true)
             vim.api.nvim_buf_delete(buf, { force = true })
             if vim.api.nvim_buf_is_valid(buf) then
                 vim.bo[buf].buflisted = false
             end
-            -- vim.api.nvim_win_close(win, true)
         else
             print("Invalid jump format!")
         end
@@ -130,21 +133,23 @@ local function open_file_in_float_MyProjectJumps()
         local l = vim.api.nvim_buf_get_lines(buf, i - 1, i, false)[1]
         if l then
             local row_s, col_s, file_s, content_s, full_s = l:match(match_pattern)
-            -- local row_s, col_s, file_s, content_s, full_s = l:match("^([^|]+)|([^|]+)|([^|]+)|([^|]+)|(.+)$")
             if row_s and col_s and file_s and content_s and full_s then
-                local s1 = #row_s + 1
-                local s2 = #row_s + 1 + #col_s + 1
-                local s3 = #row_s + 1 + #col_s + 1 + #file_s + 1
-                local s4 = #row_s + 1 + #col_s + 1 + #file_s + 1 + #content_s + 1
+                local s1 = #row_s + sep_width
+                local s2 = #row_s + sep_width + #col_s + sep_width
+                local s3 = #row_s + sep_width + #col_s + sep_width + #file_s + sep_width
+                local s4 = #row_s + sep_width + #col_s + sep_width + #file_s + sep_width + #content_s + sep_width
+
+
+                local sepOffset = 1 - sep_width
 
                 vim.fn.matchaddpos("JumpRow", { { i, 1, #row_s } })
-                vim.fn.matchaddpos("JumpSeparator", { { i, s1, 1 } })
+                vim.fn.matchaddpos("JumpSeparator", { { i, s1 + sepOffset, sep_width } })
                 vim.fn.matchaddpos("JumpCol", { { i, s1 + 1, #col_s } })
-                vim.fn.matchaddpos("JumpSeparator", { { i, s2, 1 } })
+                vim.fn.matchaddpos("JumpSeparator", { { i, s2 + sepOffset, sep_width } })
                 vim.fn.matchaddpos("jump_file", { { i, s2 + 1, #file_s } })
-                vim.fn.matchaddpos("JumpSeparator", { { i, s3, 1 } })
+                vim.fn.matchaddpos("JumpSeparator", { { i, s3 + sepOffset, sep_width } })
                 vim.fn.matchaddpos("JumpContent", { { i, s3 + 1, #content_s } })
-                vim.fn.matchaddpos("JumpSeparator", { { i, s4, 1 } })
+                vim.fn.matchaddpos("JumpSeparator", { { i, s4 + sepOffset, sep_width } })
                 vim.fn.matchaddpos("JumpFullPath", { { i, s4 + 1, #full_s } })
             end
         end
@@ -194,8 +199,7 @@ function add_project_jump()
     local content_fixed = line_content:sub(1, 110)
     content_fixed       = content_fixed .. string.rep(" ", 110 - #content_fixed)
 
-    local line          = string.format("%s|%s|%s|%s|%s",
-        row_str, col_str, relpath_fixed, content_fixed, filepath)
+    local line          = string.format(line_pattern, row_str, col_str, relpath_fixed, content_fixed, filepath)
 
 
     -- NOTE: To Insert Line at start of file

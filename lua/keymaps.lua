@@ -23,6 +23,9 @@ end
 function M.setup()
     local opts = { noremap = true, silent = true }
     local opts2 = { remap = true, silent = true }
+    -- vim.keymap.set("n", "<PageUp>", "<Nop>")
+    -- vim.keymap.set("n", "<PageDown>", "<Nop>")
+
     -- -- Space
     vim.keymap.set("n", "<Space>", "<Nop>")
     vim.keymap.set("v", "<Space>", "<Nop>")
@@ -70,25 +73,32 @@ function M.setup()
     vim.keymap.set("n", "<leader>no", ":noh<CR>", opts)
 
     -- Insert mode (expr mappings)
-    vim.keymap.set("i", "<Tab>", function()
-        return vim.fn.pumvisible() == 1 and "<C-n>" or "<Tab>"
-    end, { expr = true, noremap = true })
+    -- vim.keymap.set({ "i", "c" }, "<Tab>", function()
+    --     if vim.fn.pumvisible() == 1 then
+    --         return "<C-n>"
+    --     else
+    --         return "<Tab>"
+    --     end
+    -- end, { expr = true, noremap = true })
+    --
+    -- vim.keymap.set({ "i", "c" }, "<S-Tab>", function()
+    --     if vim.fn.pumvisible() == 1 then
+    --         return "<C-p>"
+    --     else
+    --         return "<S-Tab>"
+    --     end
+    -- end, { expr = true, noremap = true })
 
-    vim.keymap.set("c", "<Tab>", "<C-n>", { noremap = true })
+    -- vim.keymap.set("c", "<Tab>", "<C-n>", { noremap = true })
+    -- vim.keymap.set("c", "<S-Tab>", "<C-p>", { noremap = true })
 
-    vim.keymap.set("i", "<S-Tab>", function()
-        return vim.fn.pumvisible() == 1 and "<C-p>" or "<S-Tab>"
-    end, { expr = true, noremap = true })
-
-    vim.keymap.set("c", "<S-Tab>", "<C-p>", { noremap = true })
-
-    vim.keymap.set("i", "<CR>", function()
-        return vim.fn.pumvisible() == 1 and "<C-y>" or "<CR>"
-    end, { expr = true, noremap = true })
-
-    vim.keymap.set("i", "<Esc>", function()
-        return vim.fn.pumvisible() == 1 and "<C-e>" or "<Esc>"
-    end, { expr = true, noremap = true })
+    -- vim.keymap.set("i", "<CR>", function()
+    --     return vim.fn.pumvisible() == 1 and "<C-y>" or "<CR>"
+    -- end, { expr = true, noremap = true })
+    --
+    -- vim.keymap.set("i", "<Esc>", function()
+    --     return vim.fn.pumvisible() == 1 and "<C-e>" or "<Esc>"
+    -- end, { expr = true, noremap = true })
 
     vim.keymap.set("i", "<C-x><C-k>", function()
         return SpellCheck("<C-x><C-k>")
@@ -122,6 +132,8 @@ function M.setup()
 
     vim.keymap.set("n", "-", "<CMD>Oil --float<CR>", { desc = "Open parent directory" })
     vim.keymap.set("n", "<leader>B", "<CMD>Build<CR>", { noremap = true, desc = "Build Project" })
+    vim.keymap.set("n", "<leader>bb", "<CMD>Build<CR>", { noremap = true, desc = "Build Project" })
+    vim.keymap.set("n", "<leader>rr", "<CMD>HotRelaod<CR>", { noremap = true, desc = "HotRelaod Project" })
 
     vim.api.nvim_create_autocmd("FileType", {
         pattern = "oil",
@@ -144,17 +156,27 @@ function M.setup()
     -- end, { noremap = true })
     vim.keymap.set("v", "<leader>tt",
         function()
-            -- local query = require("utils").get_visual_selection()
-            -- if query == "" then
-            --     return
-            -- end
-            -- require("tab").tabular(query)
             require("tabular").tabular()
         end
         , opts)
 
     vim.cmd([[
-        nnoremap <space><space> <Esc>/<++><Enter>"_c4l
+        nnoremap <space><space> <Esc>/\$\$\$\$<Enter>"_c4l
+
+        " Markers
+        nnoremap mm <Esc><Esc>/\/\*x\*\/<Enter>zz
+        nnoremap MM <Esc><Esc>?\/\*x\*\/<Enter>zz
+        nnoremap ms <Esc><Esc>/\/\/\s*[=]\+.*$<Enter>zz
+        nnoremap MS <Esc><Esc>?\/\/\s*[=]\+.*$<Enter>zz
+
+        nnoremap mn <Esc><Esc>o/*x*/<Esc>
+        nnoremap md <Esc><Esc>"_5r<space>4h<Esc>
+
+
+
+        nnoremap n nzz
+        nnoremap N Nzz
+
     ]])
 end
 
@@ -162,10 +184,11 @@ function M.lsp_mappings(bufnr)
     local opts = { buffer = bufnr }
 
     vim.keymap.set("n", "<F12>", vim.lsp.buf.definition, opts)
-    vim.keymap.set("n", "<C-k><C-d>", vim.lsp.buf.format, opts)
-    -- vim.keymap.set("n", "<C-k><C-d>", require("conform").format, opts)
-    vim.keymap.set("n", "<C-k><C-r>", vim.lsp.buf.rename, opts)
+    vim.keymap.set("n", "<F11>", vim.lsp.buf.references, opts)
     vim.keymap.set("n", "<C-k><C-l>", vim.lsp.buf.references, opts)
+
+    vim.keymap.set("n", "<C-k><C-d>", vim.lsp.buf.format, opts)
+    vim.keymap.set("n", "<C-k><C-r>", vim.lsp.buf.rename, opts)
     vim.keymap.set("n", "<C-k><C-i>", function()
         vim.lsp.buf.hover({ border = "single" })
     end, opts)
@@ -176,13 +199,9 @@ function M.lsp_mappings(bufnr)
         vim.diagnostic.setqflist({ severity = { min = vim.diagnostic.severity.WARN } })
     end, opts)
 
-    vim.keymap.set("n", "<leader>l]", function()
-        vim.diagnostic.jump({ count = 1, float = false })
-    end, opts)
-
-    vim.keymap.set("n", "<leader>l[", function()
-        vim.diagnostic.jump({ count = -1, float = false })
-    end, opts)
+    -- NOTE(^min): use ]q  and  [q
+    -- vim.keymap.set("n", "<leader>l]", '<cmd>cnext<cr>', opts)
+    -- vim.keymap.set("n", "<leader>l[", '<cmd>cprevious<cr>', opts)
 
     vim.keymap.set("n", "<leader>lo", function()
         vim.diagnostic.open_float({ border = "single" })
