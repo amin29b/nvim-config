@@ -178,6 +178,9 @@ function M.setup()
         nnoremap N Nzz
 
     ]])
+
+    vim.keymap.set("v", "<space>dd", [[:<C-u>'<,'>s/\s\+$//e | noh<CR>]])
+    vim.keymap.set("n", "<space>dd", [[<CMD>s/\s\+$//e | noh<CR>]] )
 end
 
 function M.lsp_mappings(bufnr)

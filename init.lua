@@ -216,3 +216,11 @@ require("lsps.html_ls").setup()
 require("lsps.ts_ls").setup()
 require("lsps.css_ls").setup()
 require("lsps.json_ls").setup()
+
+
+vim.cmd([[
+  highlight Normal guibg=NONE ctermbg=NONE
+  highlight NonText guibg=NONE ctermbg=NONE
+  highlight SignColumn guibg=NONE ctermbg=NONE
+  highlight EndOfBuffer guibg=NONE ctermbg=NONE
+]])

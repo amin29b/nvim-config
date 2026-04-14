@@ -98,9 +98,6 @@ if &background ==# 'dark'
   hi SpellRare guifg=#00afaf guibg=NONE guisp=#00afaf gui=undercurl cterm=underline
   hi StatusLine guifg=#000000 guibg=#dadada gui=bold cterm=bold
   hi StatusLineNC guifg=#707070 guibg=#000000 gui=reverse cterm=reverse
-  hi TabLine guifg=#707070 guibg=#000000 gui=reverse cterm=reverse
-  hi TabLineFill guifg=#dadada guibg=NONE gui=NONE cterm=NONE
-  hi TabLineSel guifg=#000000 guibg=#dadada gui=bold cterm=bold
   hi Title guifg=NONE guibg=NONE gui=NONE ctermfg=NONE ctermbg=NONE cterm=NONE
   hi VertSplit guifg=#707070 guibg=#000000 gui=NONE cterm=NONE
   hi Visual guifg=#ffaf00 guibg=#000000 gui=reverse cterm=reverse
@@ -157,8 +154,11 @@ if &background ==# 'dark'
   hi DiagnosticUnderlineWarn  guifg=NONE guibg=#444410 gui=NONE
   hi DiagnosticUnderlineError guifg=NONE guibg=#441010  gui=NONE
 
-  hi CommentSEPERATOR guifg=#101080 guibg=NONE gui=bold cterm=bold
+  hi CommentSEPERATOR guifg=#FFFFFF guibg=NONE gui=bold,italic cterm=bold
 
+  hi TabLine     guifg=#707070 guibg=#000000 gui=reverse cterm=reverse
+  hi TabLineFill guifg=#dadada guibg=#aaaaaa    gui=NONE    cterm=NONE
+  hi TabLineSel  guifg=#aaaaFa guibg=#333333 gui=bold    cterm=bold
 
 
   hi Normal   guifg=#dadada guibg=#0F0F06 gui=NONE cterm=NONE
