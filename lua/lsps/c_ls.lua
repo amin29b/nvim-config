@@ -161,8 +161,15 @@ local function Build(callback, hotReload)
 
 
     local build_bat = vim.fn.printf(project_root .. "\\build.bat")
+
+    -- project_root = vim.fn.printf("\"" .. project_root .. "\"")
+    -- build_bat = vim.fn.printf("\"" .. build_bat .. "\"")
+    -- table.insert(messages, build_bat);
+    -- table.insert(messages, project_root);
+
     vim.fn.jobstart(
-        { build_bat, project_root, hotReload }
+    -- { build_bat, project_root, hotReload }
+        { build_bat, hotReload }
         , {
             stdout_buffered = true,
             stderr_buffered = true,
@@ -175,6 +182,7 @@ local function Build(callback, hotReload)
 
 
 
+                -- table.insert(messages, #data);
                 -- print("OUT2(0): " .. data[#data])
                 -- print("OUT(-1): " .. data[#data - 1])
                 -- print("OUT(-2): " .. data[#data - 2])
@@ -188,6 +196,7 @@ local function Build(callback, hotReload)
 
                     table.insert(messages, message1);
                     table.insert(messages, message2);
+                    -- table.insert(messages, project_root);
                     -- table.insert(messages, vim.inspect(data));
                     vim.api.nvim_echo({ { table.concat(messages, "\n"), "BuildS" } }, false, {})
 
@@ -224,6 +233,7 @@ local function Build(callback, hotReload)
                         "   Warning Count: " .. (#qf_lines_warnings)
                     table.insert(messages, message1);
                     table.insert(messages, message2);
+                    -- table.insert(messages, project_root);
                     -- table.insert(messages, vim.inspect(data));
                     vim.api.nvim_echo({ { table.concat(messages, "\n"), "BuildF" } }, false, {})
 

@@ -1,4 +1,4 @@
--- local M = {}
+local M = {}
 --
 -- local uv = vim.uv
 -- local fs = vim.fs
@@ -233,4 +233,4 @@
 -- }
 --
 -- M.cmd_env = get_env()
--- return M
+return M

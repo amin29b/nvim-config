@@ -65,6 +65,7 @@ local function FindProjectRoot(root_markers)
     end
 
     -- print(root)
+    -- root = vim.fn.fnameescape(root)
     return root
 end
 

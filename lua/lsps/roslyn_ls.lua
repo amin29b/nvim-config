@@ -166,6 +166,7 @@ local function select_build_config(callback, filepath)
     local slnfile = FindProjectSlnFile(filepath)
     -- print(slnfile)
     local configs = get_configs_from_sln(slnfile)
+    table.sort(configs)
     -- local configs =
     -- {
     --     "Debug"
